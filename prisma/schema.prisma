@@ -10,70 +10,67 @@ generator client {
   provider = "prisma-client-js"
 }
 
-
 model Usuario {
-  id          Int       @id @default(autoincrement())
-  nome        String    
-  sobrenome   String    
-  email       String    
-  senha       String 
-  cpf         Int       @unique
-  isAdmin     Boolean?
+  id        Int      @id @default(autoincrement())
+  nome      String
+  sobrenome String
+  email     String
+  senha     String
+  cpf       Int      @unique
+  isAdmin   Boolean?
 
 
-  perfis        Perfil[]
-  jogosProprio  UsuarioEmJogo[]
+  perfis       Perfil[]
+  jogosProprio UsuarioEmJogo[]
 
 }
 
-
 model Perfil {
-  id          Int       @id @default(autoincrement())
-  titulo      String    @unique
-  imagem      String
-  apelido     Apelido   @relation(fields: [apelidoId],references: [id])
-  apelidoId   Int         
+  id     Int    @id @default(autoincrement())
+  titulo String @unique
+  imagem String
 
+
+  Usuario   Usuario? @relation(fields: [usuarioId], references: [id])
+  usuarioId Int?
 }
 
 model Jogo {
-  id          Int       @id @default(autoincrement())
-  title       String    @unique
-  capa        String    
-  descricao   String    
-  ano         Int 
-  nota        Int 
-  link_yt     String    
-  link_gp     String    
+  id        Int    @id @default(autoincrement())
+  title     String @unique
+  capa      String
+  descricao String
+  ano       Int
+  nota      Int
+  link_yt   String
+  link_gp   String
 
   generosJogo JogoEmGenero[]
-  usuarios UsuarioEmJogo[]
+  usuarios    UsuarioEmJogo[]
 
 }
 
-
-model Genero{
-  id          Int       @id @default(autoincrement())
-  nome        String    @unique
+model Genero {
+  id        Int            @id @default(autoincrement())
+  nome      String         @unique
   jogosJogo JogoEmGenero[]
 }
 
-
 model JogoEmGenero {
-  jogo        Jogo @relation(fields:[jogoId],references:[id])
-  jogoId      Int
-  genero      Genero @relation(fields:[generoId],references:[id])
-  generoId    Int
+  jogo     Jogo   @relation(fields: [jogoId], references: [id])
+  jogoId   Int
+  genero   Genero @relation(fields: [generoId], references: [id])
+  generoId Int
 
 
   @@id([jogoId, generoId])
 }
 
-model UsuarioEmJogo{
-  usuario     Usuario @relation(fields:[usuarioId],references:[id])
-  usuarioId   Int
-  jogo        Jogo @relation(fields:[jogoId],references:[id])
-  jogoId      Int
+model UsuarioEmJogo {
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId Int
+  jogo      Jogo    @relation(fields: [jogoId], references: [id])
+  jogoId    Int
 
 
   @@id([usuarioId, jogoId])

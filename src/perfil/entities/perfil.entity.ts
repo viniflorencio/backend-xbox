@@ -1,1 +1,4 @@
-export class Perfil {}
+export class Perfil {
+    titulo: string;
+    imagem: string;
+}
